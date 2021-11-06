@@ -47,12 +47,10 @@ startGame = () => {
 };
 
 getNewQuestion = () => {
-
     if(availableQuestions.length == 0 || questionCounter >= MAX_QUESTIONS){
         //go to the end page
         return window.location.assign("/end.html");
     }
-
 
     questionCounter++;
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
@@ -75,9 +73,15 @@ choices.forEach(choice => {
         acceptingAnswers = false;
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset["number"];
-        console.log(selectedAnswer);
-        getNewQuestion();
+        const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
+
+        selectedChoice.parentElement.classList.add(classToApply); //this is how you apply new class to an element
+        
+        setTimeout(() => {
+            selectedChoice.parentElement.classList.remove(classToApply);
+            getNewQuestion();
+        }, 1000);
     })
-})
+});
 
 startGame();
